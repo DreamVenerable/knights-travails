@@ -20,8 +20,8 @@ end
 class Knight
   # coordinated of the board
   BOARD_RANGE = [0, 1, 2, 3, 4, 5, 6, 7]
-  POSITIONS = []
-  BOARD_RANGE.repeated_permutation(2) {|permu| POSITIONS.push(permu) }
+  @@positions = []
+  BOARD_RANGE.repeated_permutation(2) {|permu| @@positions.push(permu) }
 
   # [x,y] format of knights moves relative to its position
   KNIGHT_MOVES = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-1, 2], [-2, 1]]
@@ -45,10 +45,10 @@ class Knight
       @graph.add_node(arr)
       KNIGHT_MOVES.each do |el|
         return nil if latest_pos.include?(dest)
-        
+
         pos = [(el[0] + arr[0]), (el[1] + arr[1])]
         
-        if POSITIONS.include?(pos)
+        if @@positions.include?(pos)
           latest_pos.push(pos) 
           @graph.add_edge(arr, pos)
         end
@@ -66,7 +66,7 @@ class Knight
 
 
   def knight_moves(initial_pos, end_pos)
-    find_route([initial_pos], end_pos) if POSITIONS.include?(initial_pos) && POSITIONS.include?(end_pos)
+    find_route([initial_pos], end_pos) if @@positions.include?(initial_pos) && @@positions.include?(end_pos)
   end
 end
 
