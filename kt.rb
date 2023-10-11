@@ -66,7 +66,11 @@ class Knight
 
 
   def knight_moves(initial_pos, end_pos)
-    find_route([initial_pos], end_pos) if @@positions.include?(initial_pos) && @@positions.include?(end_pos)
+    if @@positions.include?(initial_pos) && @@positions.include?(end_pos)
+      find_route([initial_pos], end_pos) 
+    else
+      puts 'Invalid coordinates'
+    end
   end
 end
 
