@@ -36,23 +36,27 @@ class Knight
   # so there are 2 loops, curr loop which houses found nodes
   # and KNIGHT_MOVES loop that finds the next nodes from curr node
   # after curr loop runs once, we should check if end position is there
-  # if it is, we need to find the path from initial point to end point to print it *idk how*
-  # if not, we recursivly call find_route with latest_pos as its argument
-  # it will run to find the next possible destinations
-  @@foo = 0
-  def find_route(curr)
+  # if not, we recursivly call find_route with latest_pos as its argument till its found
+  # if it is, we stop, then we need to find the path from initial point 
+  # to end point to print it *idk how*
+  def find_route(curr, dest)
     latest_pos = []
     curr.each do |arr|
       @graph.add_node(arr)
       KNIGHT_MOVES.each do |el|
+        return nil if latest_pos.include?(dest)
+        
         pos = [(el[0] + arr[0]), (el[1] + arr[1])]
-        latest_pos.push(pos) if POSITIONS.include?(pos)
-        @graph.add_edge(arr, pos) if POSITIONS.include?(pos)
+        
+        if POSITIONS.include?(pos)
+          latest_pos.push(pos) 
+          @graph.add_edge(arr, pos)
+        end
       end
     end
-    while @@foo < 2
-      @@foo += 1
-      find_route(latest_pos)
+
+    unless latest_pos.include?(dest)
+      find_route(latest_pos, dest)
     end
   end
 
@@ -62,12 +66,12 @@ class Knight
 
 
   def knight_moves(initial_pos, end_pos)
-    find_route([initial_pos])
+    find_route([initial_pos], end_pos) if POSITIONS.include?(initial_pos) && POSITIONS.include?(end_pos)
   end
 end
 
 knight = Knight.new
 
-knight.knight_moves([3, 3], [0, 0])
+knight.knight_moves([3, 3], [4, 3])
 
 p knight.links
