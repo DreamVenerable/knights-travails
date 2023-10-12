@@ -1,5 +1,6 @@
 # undirected graph
 class Graph
+  attr_accessor :nodes
   def initialize
     @nodes = {}
   end
@@ -12,8 +13,8 @@ class Graph
     @nodes[node1] << node2
   end
   
-  def links(node)
-    @nodes[node]
+  def links
+    @nodes
   end
 end
 
@@ -44,7 +45,8 @@ class Knight
     curr.each do |arr|
       @graph.add_node(arr)
       KNIGHT_MOVES.each do |el|
-        return nil if latest_pos.include?(dest)
+        # stops loop when dest is found
+        return @graph if latest_pos.include?(dest)
 
         pos = [(el[0] + arr[0]), (el[1] + arr[1])]
         
@@ -60,22 +62,47 @@ class Knight
     end
   end
 
-  def links
-    @graph
+  def pathfinder(ini, end_pos)
+    @graph.add_node(end_pos)
+    @nodes = @graph.links
+    array_play(ini, end_pos)
+  end
+
+  def rec_arr(curr, arr, path, i = 1)
+    path << curr
+
+    unless arr[i].nil?
+      return rec_arr(arr[i][0], arr, path, i += 1) if arr[i][1].include?(curr)
+      return rec_arr(curr, arr, path, i += 1) unless arr[i][1].include?(curr)
+    end
+  end
+
+  def array_play(start, dest)
+    arr = @nodes.to_a.reverse
+    keys =  @nodes.keys.reverse
+    path = []
+
+    rec_arr(dest, arr, path)
+    path.reverse!
+    path.uniq!
+    p path
   end
 
 
   def knight_moves(initial_pos, end_pos)
+
+    # checks if coordinates are valid
     if @@positions.include?(initial_pos) && @@positions.include?(end_pos)
       find_route([initial_pos], end_pos) 
     else
       puts 'Invalid coordinates'
     end
+
+    # gets shortest path
+    pathfinder(initial_pos, end_pos)
   end
 end
 
 knight = Knight.new
 
-knight.knight_moves([3, 3], [4, 3])
-
-p knight.links
+knight.knight_moves([3, 3], [0, 0])
