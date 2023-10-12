@@ -53,14 +53,11 @@ class Knight
 
   def knight_moves(initial_pos, end_pos)
     make_route([initial_pos], end_pos) 
-
     @graph.add_node(end_pos)
     @nodes = @graph.links
     arr = @nodes.to_a.reverse
     path = []
-
     rec_arr(end_pos, arr, path)
-
     path.uniq.reverse!
   end
 end
