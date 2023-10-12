@@ -65,7 +65,16 @@ class Knight
   def pathfinder(ini, end_pos)
     @graph.add_node(end_pos)
     @nodes = @graph.links
-    array_play(ini, end_pos)
+
+    arr = @nodes.to_a.reverse
+    keys =  @nodes.keys.reverse
+    path = []
+
+    rec_arr(end_pos, arr, path)
+
+    path.reverse!
+    path.uniq!
+    p path
   end
 
   def rec_arr(curr, arr, path, i = 1)
@@ -76,18 +85,6 @@ class Knight
       return rec_arr(curr, arr, path, i += 1) unless arr[i][1].include?(curr)
     end
   end
-
-  def array_play(start, dest)
-    arr = @nodes.to_a.reverse
-    keys =  @nodes.keys.reverse
-    path = []
-
-    rec_arr(dest, arr, path)
-    path.reverse!
-    path.uniq!
-    p path
-  end
-
 
   def knight_moves(initial_pos, end_pos)
 
@@ -105,4 +102,4 @@ end
 
 knight = Knight.new
 
-knight.knight_moves([3, 3], [0, 0])
+knight.knight_moves([7, 7], [0, 0])
