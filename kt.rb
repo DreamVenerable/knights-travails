@@ -54,10 +54,12 @@ class Knight
   end
 
   def knight_moves(initial_pos, end_pos)
+    # Creates paths until destination is found
     make_route([initial_pos], end_pos) 
+    # Removes other paths to keep path only
+    path = []
     @graph.add_node(end_pos)
     arr = @graph.links.to_a.reverse
-    path = []
     rec_arr(end_pos, arr, path)
     path.uniq.reverse.unshift(initial_pos)
   end
