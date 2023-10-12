@@ -19,6 +19,7 @@ end
 class Knight
   BOARD_RANGE = [0, 1, 2, 3, 4, 5, 6, 7]
   @@positions = []
+  @@history = []
   BOARD_RANGE.repeated_permutation(2) {|permu| @@positions.push(permu) }
   KNIGHT_MOVES = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-1, 2], [-2, 1]]
 
@@ -33,8 +34,9 @@ class Knight
       KNIGHT_MOVES.each do |el|
         return if latest_pos.include?(dest)
         pos = [(el[0] + arr[0]), (el[1] + arr[1])]
-        if @@positions.include?(pos)
-          latest_pos.push(pos) 
+        if @@positions.include?(pos) && !@@history.include?(pos)
+          @@history << pos
+          latest_pos << pos 
           @graph.add_edge(arr, pos)
         end
       end
@@ -58,10 +60,10 @@ class Knight
     arr = @nodes.to_a.reverse
     path = []
     rec_arr(end_pos, arr, path)
-    path.uniq.reverse!
+    path.uniq.reverse!.unshift(initial_pos)
   end
 end
 
 knight = Knight.new
 
-p knight.knight_moves([7, 7], [5, 3])
+p knight.knight_moves([7, 7], [1, 0])
