@@ -39,7 +39,7 @@ class Knight
   # after curr loop runs once, we should check if end position is there
   # if not, we recursivly call find_route with latest_pos as its argument till its found
   # if it is, we stop, then we need to find the path from initial point 
-  # to end point to print it *idk how*
+  # to end point to print it
   def find_route(curr, dest)
     latest_pos = []
     curr.each do |arr|
