@@ -41,9 +41,7 @@ class Knight
         end
       end
     end
-    unless latest_pos.include?(dest)
-      make_route(latest_pos, dest)
-    end
+    make_route(latest_pos, dest)
   end
 
   def rec_arr(curr, arr, path, i = 1)
