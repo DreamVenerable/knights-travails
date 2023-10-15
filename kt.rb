@@ -2,15 +2,15 @@ class Graph
   def initialize
     @nodes = {}
   end
-  
+
   def add_node(node)
     @nodes[node] = []
   end
-  
+
   def add_edge(node1, node2)
     @nodes[node1] << node2
   end
-  
+
   def links
     @nodes
   end
@@ -36,7 +36,7 @@ class Knight
         pos = [(el[0] + arr[0]), (el[1] + arr[1])]
         if @@positions.include?(pos) && !@@history.include?(pos)
           @@history << pos
-          latest_pos << pos 
+          latest_pos << pos
           @graph.add_edge(arr, pos)
         end
       end
@@ -53,7 +53,7 @@ class Knight
 
   def knight_moves(initial_pos, end_pos)
     # Creates paths until destination is found
-    make_route([initial_pos], end_pos) 
+    make_route([initial_pos], end_pos)
     # Removes other paths to keep path only
     path = []
     @graph.add_node(end_pos)
